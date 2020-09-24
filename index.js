@@ -49,14 +49,7 @@ const exhbs = require('express-handlebars')
 const dashboard = require('./routes/dashboard')
 const stories = require('./routes/stories')
 const uploads = require('./routes/uploads')
-// app.get('/',(req,res)=>{
-//     res.type('text/plain')
-//     res.status(200).send('<h1>Ajay</h1>')
-// })
-//console.log('path : ',__dirname)
-//console.log('new path :',path.join(__dirname,'\public','\static'))
-//console.log('file : ')
-//app.use(express.static(path.join(__dirname,'public'),'public'))
+
 app.use(express.static(path.join(__dirname,'public')))
 
 //view engine
@@ -140,18 +133,5 @@ const upload = multer({
 
 //app.use('/uploads',uploads);
 
-
+//Listening on port ...
 app.listen(PORT,()=>console.log(`Running on PORT :: ${PORT}`))
-/* This is my work and what is your work ? */
-
-//mongodb+srv://<username>:<password>@poemreaders-86yrp.mongodb.net/test?retryWrites=true&w=majority
-/*
-const takeMyName = 'My name is Chauhan Ajaykumar.'
-const expressFeelings = 'I am awesome'
-const result = (function(){
-    return takeMyName
-})()
-console.log(takeMyName) //My name is Chauhan Ajaykumar
-*/
-
-/* I am the wwe wrestler who are you */
