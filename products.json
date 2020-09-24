@@ -1,0 +1,74 @@
+[
+    {
+        "id":1,
+        "name":"Head Phones",
+        "price":100000,
+        "imgName":"1"
+    },
+    {
+        "id":2,
+        "name":"Road's Watch",
+        "price":100000,
+        "imgName":"2"
+    },
+    {
+        "id":3,
+        "name":"Black's Bicycle",
+        "price":500000,
+        "imgName":"3"
+    },
+    {
+        "id":4,
+        "name":"Video Game",
+        "price":200000,
+        "imgName":"4"
+    },
+    {
+        "id":5,
+        "name":"White's Shoes",
+        "price":50000,
+        "imgName":"5"
+    },
+    {
+        "id":6,
+        "name":"Shop's Cup",
+        "price":3000,
+        "imgName":"6"
+    },
+    {
+        "id":7,
+        "name":"Watch Time",
+        "price":3000,
+        "imgName":"7"
+    },
+    {
+        "id":8,
+        "name":"White's Pot",
+        "price":2000,
+        "imgName":"8"
+    },
+    {
+        "id":9,
+        "name":"Shop's Glass",
+        "price":3000,
+        "imgName":"9"
+    },
+    {
+        "id":10,
+        "name":"Paper Pencil",
+        "price":3000,
+        "imgName":"10"
+    },
+    {
+        "id":11,
+        "name":"Tree Plant",
+        "price":3000,
+        "imgName":"11"
+    },
+    {
+        "id":12,
+        "name":"Color Spoon",
+        "price":3000,
+        "imgName":"12"
+    }
+]

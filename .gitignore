@@ -1,0 +1,10 @@
+node_modules/
+keys_dev.js
+.vscode/
+.env
+public/libs/
+public/uploads/
+config/
+1.js
+example.js
+indexx.html

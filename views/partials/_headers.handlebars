@@ -1,0 +1,56 @@
+
+
+<div class="navbar-fixed">
+
+<nav class="black darken-3">
+    <div class="container">
+        <div class="nav-wrapper">
+            <a href="/" class="brand-logo center">ShopYoursDream</a>
+
+            <a href="#" data-activates="main-menu" class="button-collapse show-on-large">
+                <i class="fa fa-bars"></i>
+            </a>
+
+            <!--right nav -->
+            <ul class="right hide-on-small-only">   
+                {{#if user}}
+                  <li><a href="/dashboard">{{user.firstName}}</a></li>
+                  <li><a href="/auth/logout"> <i class="fa fa-sign-out"></i>Logout</a></li>
+                {{else}}
+                
+                {{/if}}
+            </ul>
+
+    
+        </div>
+    </div>
+</nav>
+</div>
+
+        <!--side nav-->
+            <ul class="side-nav" id="main-menu">
+                <li>
+                {{#if user}}
+                <li><div class="user-view">
+                <div class="background">
+                    <img src="images/nature.png">
+                </div>
+                <a href="{{user.image}}"><img class="circle" src="{{user.image}}"></a>
+                <span class="white-text name">{{user.firstName}}</span>
+               <span class="white-text email">{{user.email}}</span>
+                </div></li>
+                {{#if isCart}}
+                <li><a href="#modal1" class="modal-trigger">Added Products in Cart</a></li>
+                {{else}}
+                {{/if}}
+                <li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+                <li><a href="/dashboard"><i class="fa fa-shopping-cart"></i>Shop Items</a></li>
+                <li><a href="/history"><i class="fa fa-history"  ></i>History</a></li>
+                <div class="divider"></div>
+                <li><a href="/auth/logout"><i class="fa fa-sign-out" ></i>Logout</a></li>
+                {{else}}
+                 <li><a href="/">Welcome to ShopYoursDream</li></a>
+                <a href="/auth/google" class="btn red darken-1">Login with Google</a>
+                {{/if}}
+                </li>
+            </ul>

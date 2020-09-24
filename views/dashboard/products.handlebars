@@ -1,0 +1,286 @@
+
+<script type="text/javascript">
+function clearViewModal(){
+    document.querySelector('#modal2 .modal-content .row .col h4').innerText = '';
+    document.querySelector('#modal2 .modal-content .row .col img').src = '';
+    document.querySelector('#modal2 .modal-content .row .col .actions span.price').innerHTML = '';
+    document.querySelector('#modal2 .modal-content .row .col .actions a.like').innerHTML = '';
+    document.querySelector('#modal2 #descriptionId').innerText = '';
+ /*   document.querySelector('#modal2 .modal-content .row .col .actions a:last-child').innerHTML = '';*/
+}
+
+function getProductViews(e){
+    const a1 = e.target;
+    const productId = a1.closest('#modal2').dataset.id;
+    const xml = new XMLHttpRequest();
+    xml.open('post','/views/users',true);
+    xml.setRequestHeader('Content-Type','application/json');
+    xml.onreadystatechange = function(){
+      if(this.status == 200 && this.readyState == 4){
+        const users = JSON.parse(this.responseText);
+        document.querySelector('#modal3 .modal-content').innerHTML = "";
+        
+        const ul = document.createElement('ul');
+        ul.classList.add('collection');
+
+         users.forEach(user=>{
+             const li = document.createElement('li');
+             li.classList.add('collection-item');
+             li.classList.add('avatar'); 
+
+             const img = document.createElement('img');
+             img.src = user.avatar;
+             img.alt = "";
+             img.classList.add('circle');
+
+             const p = document.createElement('p');
+             p.innerText = user.firstName + " " + user.lastName;
+
+             //<a href="#!" class="secondary-content"><i class="fa fa-heart"></i></a>
+
+             if(user.like > 0 ){
+               const a = document.createElement('a');
+               a.href = "#!";
+               a.classList.add('secondary-content');
+               a.classList.add('tooltipped');
+
+               a.dataset.position = 'right';
+               a.dataset.tooltip = 'Liked';
+
+               const i = document.createElement('i');
+               i.classList.add('fa');
+               i.classList.add('fa-heart');
+
+              a.append(i);
+              li.append(img);
+              li.append(p);
+              li.append(a);
+
+             } else {
+                     li.append(img);
+                  li.append(p);
+             }
+
+             ul.append(li);
+             
+         });
+
+           document.querySelector('#modal3 .modal-content').append(ul);
+            $('.tooltipped').tooltip();
+
+      }
+    }
+    xml.send(JSON.stringify({id : productId}));
+}
+
+
+function incrementLike(e){
+  
+    const modal = e.target;
+    const productId = e.target.closest('#modal2').dataset.id;
+    const action = e.target.innerText;
+
+    const xml = new XMLHttpRequest();
+    xml.open('post','/views/like',true);
+    xml.setRequestHeader('Content-Type','application/json');
+    xml.onreadystatechange = function(){
+      if(this.status == 200 && this.readyState == 4){
+          e.target.innerText = this.responseText;
+      }
+    }
+    xml.send(JSON.stringify({productId : productId,action : action}));
+
+}
+</script>
+  <!-- Modal Structure -->
+
+
+  <div id="modal2" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col s12 l5">
+          <h4>Name</h4>
+          <img src="" alt="Image" class="" style="width:100%;height:auto;">
+          <br>
+                       <div class="actions">
+                         <span style="font-size:2rem;" class="price">price</span>
+                        
+        <a style="font-size:2rem;" href="#!" class='like'>Like</a>           
+        <a style="font-size:2rem;" href="#modal3" class="modal-trigger">Views</a> 
+        
+      </div>
+        </div>
+        <div class="col s12 l7">
+          <br><br>
+          <h5>Description</h5>
+           
+            <p id="descriptionId"></p>
+        </div>
+      </div>
+      
+    </div>
+    <div class="modal-footer">
+      <a href="#!" onclick='clearViewModal()' class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+
+
+          <!-- User viewed Modal Structure -->
+  <div id="modal3" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+
+
+  <div class="row">
+      {{#each products}}
+        <div class="col s6 l3" >
+          <div class="card">
+              <div class="card-image">
+                  <img src="images/load/{{imgName}}.jpg"/>
+                  <a href="#modal2"  class="btn-floating modal-trigger black halfway-fab">
+                      <i class="material-icons"><i class="fa fa-eye"></i></i>
+                  </a> 
+              </div>
+              <div class="card-content">
+                  <span class="card-title" data-id={{id}}>{{name}}</span>
+                 <p>&#x20B9;{{divide price 100}}</p>
+              </div>
+
+              <div class="card-action">
+                  <a href="#!"><i style='font-size:1rem;' class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
+              </div>
+          </div>
+
+      </div>
+      {{/each}}
+    
+
+  <!-- Modal Trigger -->
+  <div class="fixed-action-btn direction-top" style="bottom: 45px; right: 24px;">
+          <a href="#modal1" class="waves-effect waves-light btn-floating btn-large red modal-trigger">
+           <i class="fa fa-shopping-cart"></i>
+          </a>
+</div>
+  
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal  modal-fixed-footer">
+    <div class="modal-content">
+       <table class="product_table">
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Quantity</th>
+              <th>Price/Item</th>
+              <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+
+        </tbody>
+
+      <tfoot>
+        <tr>
+            <td></td>
+            <td><span style="font-size:20px;">Total</span></td>
+            <td>&#x20B9;0</td>
+            <td>
+            <form action="/charge" method="POST">
+            <input type="hidden" name="productsList" id="productsList" value=""/>
+                <script id="attachedScript"
+                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                data-key="pk_test_KGLBBCBxcoLUOWfWymLPUPLV003bNpjuzI"
+                data-name="shopYoursDream"
+                data-description="Buy your favourite Items"
+                data-image = "/images/marketplace.png"
+                data-locale="auto">
+                </script>
+                <script>
+                // Hide default stripe button
+                document.getElementsByClassName('stripe-button-el')[0].style.display = 'none';
+                </script>
+                <button type="submit" style="display:none;" class="btn blue">
+                Purchase</button>
+            </form>
+                <a style="font-size:1.6rem" id="purchaseId" class="waves-effect waves-light btn-small">Purchase</a>
+            </td>
+        </tr>
+      </tfoot>
+
+
+
+      </table>
+    </div>
+    <div class="modal-footer">
+
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">close</a>
+    </div>
+  </div>
+
+  </div>
+<script type="text/javascript">
+
+
+checkfncheckproductspresent();
+function getDataCartToModal(e){
+    const viewBtn = e.target;
+
+    const product = {};
+    const productId = viewBtn.closest('.card').querySelector('.card-content span').dataset.id;
+    const imgsrc = viewBtn.closest('.card').querySelector('.card-image img').src;
+    const name = viewBtn.closest('.card').querySelector('.card-content span').innerText;
+    const price = viewBtn.closest('.card').querySelector('.card-content p').innerText;
+    //const action = viewBtn.closest('.card').querySelector('.card-action span').innerText;
+    
+    product['productId'] = productId;
+    product['name'] = name;
+    product['price'] = price;
+    product['action'] = 'view';
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('post','/views',true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.onreadystatechange = function(){
+        if(this.status == '200'){
+            
+            
+              if(this.responseText=='Liked' || this.responseText == 'Like'){
+               // console.log(this.responseText);
+                document.querySelector('#modal2 .modal-content .like').innerText = this.responseText;
+              }
+            
+          
+   //Putting values ~
+   document.querySelector('#modal2').dataset.id = productId;
+   document.querySelector('#modal2 h4').innerText = name;
+   document.querySelector('#modal2 .price').innerText = price;
+   document.querySelector('#modal2 img').src = imgsrc;
+   document.querySelector('#modal2 #descriptionId').innerText = `${name} is one of the most awesome products of shopyoursdream website. :)`;
+
+   const modal2View = document.querySelector('#modal2 .modal-content .modal-trigger');
+   modal2View.addEventListener('click',getProductViews);
+
+
+   const like = document.querySelector('#modal2 .modal-content .like');
+   like.addEventListener('click',incrementLike);
+
+        }
+    }
+    
+    xhr.send(JSON.stringify(product));
+
+   
+}
+const views = document.querySelectorAll('.card .card-image a');
+views.forEach(view => {
+    view.addEventListener('click',getDataCartToModal);
+});
+
+
+</script>

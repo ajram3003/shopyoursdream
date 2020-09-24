@@ -1,0 +1,16 @@
+<div class="row">
+<div class="col s12 l4">
+<img src="images/welcome_shadow.png" style="height:8cm;width:auto;" alt="welcome" class="responsive-img"/>
+</div>
+<div class="col s12 l8">
+<br>
+<p style="font-size:30px">Welcome {{#if user}} {{user.firstName}} {{user.lastName}}{{/if}}</p>
+<p style="font-size:20px">Purchase your favourite Items from our ShopYoursDream website.</p>
+{{#if user}}
+{{else}}
+<a href="/auth/google" class="btn red darken-1"><i class="fa fa-google left"></i>Login with Google</a>
+{{/if}}
+</div>
+</div>
+
+

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+    <title>ShopYoursDream</title>
+      <link rel="icon" type="image/x-icon"   href="icon_shopyoursdream.png?"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"/>
+    <script defer type="text/javascript" src="script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    
+    <script type="text/javascript">
+
+          //check products in cart
+          function fncheckproductspresent(e){
+
+            //variables for card,cart and amount
+            let checkIn_card = false;
+            let checkIn_table = false;
+            
+            //cards checking
+          const cards = document.querySelectorAll('.card');
+          cards.forEach((card,index,cards)=>{
+                const f  =  card.querySelector('.card-action a i').classList.contains('greenExist') && card.querySelector('.card-action a span').classList.contains('greenExist');
+
+                if(f){
+                  checkIn_card = true;
+                }
+          });
+
+          //table checking
+          const tr = document.querySelector('table.product_table tbody tr');
+          if(tr==null){
+              checkIn_table = false;
+          } else {
+            checkIn_table = true;
+          }
+
+          if(checkIn_card && checkIn_table){
+            callproductsBought();
+
+            document.querySelector('#attachedScript').dataset.amount =document.querySelectorAll('.product_table tfoot td')[2].innerText.replace('$','');
+          
+            document.querySelectorAll('.product_table tfoot tr td')[3].querySelector('button[type="submit"]').click(); 
+          } else {
+            alert('No Products in cart added ');
+            return;
+          }
+
+
+          }
+
+      function checkfncheckproductspresent(){
+        //adding eventlistener on purchase button 
+        document.querySelectorAll('.product_table tfoot tr td')[3].querySelector('#purchaseId').addEventListener('click',fncheckproductspresent);
+  
+      }
+    </script>
+    
+</head> 
+<body>
+{{!-- <div class="progress" style="margin-top:-1px;background-color:red;">
+      <div class="indeterminate"></div>
+  </div> --}}
+  
+ {{> _headers}}
+ <main class="mainWrapper">
+<div class="container">
+  {{{body}}}
+</div>
+</main>
+ 
+ {{> _footer}}
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+ <script type="text/javascript" src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script>
+  $(document).ready(() => {
+    $('.button-collapse').sideNav();
+    $('#myTable').DataTable();
+    $('.modal').modal();
+    $('.tooltipped').tooltip();
+  })
+
+</script>
+
+</body>
+
+</html>

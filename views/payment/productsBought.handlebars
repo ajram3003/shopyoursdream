@@ -1,0 +1,25 @@
+{{#if products}}
+<h3>Items Purchased</h3>
+<table id="myTable">
+  <thead>
+    <th>Products</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    <th>Purchase Date</th>
+  </thead>
+  <tbody>
+   {{#each products}}
+   <tr>
+          <td>{{itemName}}</td>
+          <td>{{itemQuantity}}</td>
+          <td>&#x20B9;{{itemPrice}}</td>
+          <td>{{formatDate boughtDate}}</td>
+   </tr>
+   {{/each}}
+  </tbody>
+</table>
+{{else}}
+<h2 class="orange-text">No Items in the cart.</h2>
+<img src="images/nohistory.png" alt="No Items in the cart"/>
+{{/if}}
+
